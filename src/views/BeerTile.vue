@@ -1,7 +1,10 @@
 <template>
   <div v-if="!isFullDetails">
     <dt>
-      <div class="absolute flex items-center justify-center rounded-md">
+      <div
+        v-if="beer.image_url"
+        class="absolute flex items-center justify-center rounded-md"
+      >
         <img :src="beer.image_url" class="h-6 w-6 h-1/6" aria-hidden="true" />
       </div>
       <p class="ml-16 text-lg leading-6 font-medium text-gray-900">

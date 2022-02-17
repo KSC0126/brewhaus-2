@@ -34,28 +34,26 @@
       </div>
     </div>
   </div>
-  <BrewhausButton
-    :button-text="buttonText"
-    @brewHausAction="getNextSetOfBeers"
-  />
+  <BrewhausPagination @updatePageNumber="updatePageNumber" />
 </template>
 
 <script>
 import BeerTile from "./BeerTile.vue";
-import BrewhausButton from "./BrewhausButton.vue";
+import BrewhausPagination from "./BrewhausPagination.vue";
 
 export default {
   data() {
     return {
       beers: [],
-      beerCount: 10,
+      beerCount: 80,
       isBeerDataLoading: false,
       buttonText: "Load next 10 beers",
+      currenPageNumber: 1,
     };
   },
   components: {
     BeerTile,
-    BrewhausButton,
+    BrewhausPagination,
   },
   created() {
     this.getBeerDetails();
@@ -65,21 +63,21 @@ export default {
       this.isBeerDataLoading = true;
       this.axios
         .get(
-          `https://api.punkapi.com/v2/beers?page=2&per_page=${this.beerCount}`
+          `https://api.punkapi.com/v2/beers?page=${this.currenPageNumber}&per_page=${this.beerCount}`
         )
         .then((response) => {
-          console.log("repsonse", response.data);
           this.beers = response.data;
         });
       this.isBeerDataLoading = false;
     },
     getNextSetOfBeers() {
-      if (this.beerCount < 80) {
-        this.beerCount = this.beerCount + 10;
-        console.log("this.beerCount", this.beerCount);
+      this.beerCount = this.beerCount + 10;
+      this.getBeerDetails();
+    },
+    updatePageNumber(pageNumber) {
+      if (this.currenPageNumber !== pageNumber) {
+        this.currenPageNumber = pageNumber;
         this.getBeerDetails();
-      } else {
-        this.buttonText = "You have viewed all 80 beers";
       }
     },
   },

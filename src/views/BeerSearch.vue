@@ -49,7 +49,6 @@ export default {
       return this.beerSearch !== "" ? true : false;
     },
     beerApi() {
-      console.log(this.beerSearch);
       return this.isInputGiven
         ? `https://api.punkapi.com/v2/beers/${this.beerSearch}`
         : "https://api.punkapi.com/v2/beers/random";
